@@ -1,1 +1,1 @@
-console.log('init basicapp');
+// console.log('init basicapp');

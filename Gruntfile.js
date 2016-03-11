@@ -5,8 +5,8 @@ module.exports = function (grunt) {
 
     grunt.initConfig({
         dirs: {
+            temp: '.tmp',
             dist: 'dist',
-            temp: 'dist',
             app: 'src',
             fonts: '<%= dirs.app %>/fonts',
             images: '<%= dirs.app %>/images',
@@ -22,13 +22,14 @@ module.exports = function (grunt) {
                 files: ['<%= dirs.app %>/**/*.html',
                     '<%= dirs.fonts %>/**/*.*',
                     '<%= dirs.vendors %>/**/*.*',
+                    '<%= dirs.temp %>/**/*.css',
                     '<%= dirs.js %>/**/*.js',
                     '<%= dirs.images %>/**/*.*'
-                ],
-                css: {
-                    files: ['<%= dirs.styles %>/**/*.scss'],
-                    tasks: ['preprocss']
-                }
+                ]
+            },
+            css: {
+                files: ['<%= dirs.styles %>/**/*.scss'],
+                tasks: ['preprocss']
             }
         },
         connect: {
@@ -48,7 +49,7 @@ module.exports = function (grunt) {
             }
         },
         sass: {
-            dist: {
+            dev: {
                 options: {
                     style: 'expanded',
                     lineNumber: true
@@ -56,11 +57,25 @@ module.exports = function (grunt) {
                 files: {
                     '<%= dirs.temp %>/app.css': '<%= dirs.styles %>/app.scss'
                 }
+            },
+            build: {
+                options: {
+                    style: 'compressed'
+                },
+                files: {
+                    '<%= dirs.dist %>/app.css': '<%= dirs.styles %>/app.scss'
+                }
             }
         },
         autoprefixer: {
-            options: ['last 2 versions', 'ie 8', 'ie 9'],
-            '<%= dirs.temp %>/app.css': ['<%= dirs.temp %>/app.css']
+            dev: {
+                options: ['last 2 versions', 'ie 8', 'ie 9'],
+                '<%= dirs.temp %>/app.css': ['<%= dirs.temp %>/app.css']
+            },
+            build: {
+                options: ['last 2 versions', 'ie 8', 'ie 9'],
+                '<%= dirs.dist %>/app.css': ['<%= dirs.dist %>/app.css']
+            }
         },
         scsslint: {
             allFiles: [
@@ -76,15 +91,13 @@ module.exports = function (grunt) {
             options: {
                 jshintrc: '.jshintrc'
             },
-            gruntfile: {
-                src: 'Gruntfile.js'
-            },
             all: {
-                src: ['<%= dirs.app %>/**/*.js']
+                src: ['<%= dirs.js %>/**/*.js']
             }
         },
         clean: {
-            server: '<%= dirs.temp %>'
+            temp: '<%= dirs.temp %>',
+            server: '<%= dirs.dist %>'
         },
         copy: {
             images: {
@@ -92,7 +105,7 @@ module.exports = function (grunt) {
                     expand: true,
                     cwd: '<%= dirs.images %>',
                     src: '**/*',
-                    dest: '<%= dirs.temp %>/images'
+                    dest: '<%= dirs.dist %>/images'
                 }]
             },
             html: {
@@ -100,7 +113,7 @@ module.exports = function (grunt) {
                     expand: true,
                     cwd: '<%= dirs.app %>/',
                     src: '**/*.html',
-                    dest: '<%= dirs.temp %>'
+                    dest: '<%= dirs.dist %>'
                 }]
             },
             js: {
@@ -108,7 +121,7 @@ module.exports = function (grunt) {
                     expand: true,
                     cwd: '<%= dirs.js %>',
                     src: '**/*.js',
-                    dest: '<%= dirs.temp %>/js'
+                    dest: '<%= dirs.dist %>/js'
                 }]
             },
             vendors: {
@@ -116,15 +129,17 @@ module.exports = function (grunt) {
                     expand: true,
                     cwd: '<%= dirs.vendors %>',
                     src: ['**/*.*'],
-                    dest: '<%= dirs.temp %>/vendors/'
+                    dest: '<%= dirs.dist %>/vendors/'
                 }]
             }
-        },
+        }
     });
 
+    grunt.registerTask('default', 'serve');
+
     grunt.registerTask('preprocss', [
-        'sass',
-        'autoprefixer'
+        'sass:dev',
+        'autoprefixer:dev'
     ]);
 
     grunt.registerTask('lint', [
@@ -133,7 +148,7 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('serve', [
-        'clean:server',
+        'clean',
         'preprocss',
         'connect:livereload',
         'watch'
@@ -141,9 +156,16 @@ module.exports = function (grunt) {
 
     grunt.registerTask('build', [
         'clean',
-        'preprocss',
+        'lint',
+        'sass:build',
+        'autoprefixer:build',
         'copy'
     ]);
 };
 //git subtree split --prefix dist -b gh-pages
 //git push origin gh-pages
+
+
+// tache déploiement gh-pages
+// compression sass au build
+// compression js / html
