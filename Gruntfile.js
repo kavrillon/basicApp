@@ -5,6 +5,8 @@ module.exports = function (grunt) {
 
     grunt.initConfig({
         dirs: {
+            grunt: '.grunt',
+            sassCache: '.sass-cache',
             temp: '.tmp',
             dist: 'dist',
             app: 'src',
@@ -93,6 +95,8 @@ module.exports = function (grunt) {
             }
         },
         clean: {
+            sassCache: '<%= dirs.sassCache %>',
+            grunt: '<%= dirs.grunt %>',
             temp: '<%= dirs.temp %>',
             server: '<%= dirs.dist %>'
         },
@@ -121,6 +125,12 @@ module.exports = function (grunt) {
                     dest: '<%= dirs.dist %>/js'
                 }]
             }
+        },
+        'gh-pages': {
+            options: {
+                base: 'dist'
+            },
+            src: ['**']
         }
     });
 
@@ -149,5 +159,10 @@ module.exports = function (grunt) {
         'sass:build',
         'autoprefixer:build',
         'copy'
+    ]);
+
+    grunt.registerTask('deploy', [
+        'build',
+        'gh-pages'
     ]);
 };

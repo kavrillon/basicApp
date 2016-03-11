@@ -1,8 +1,8 @@
 {
   "name": "basic-app",
   "version": "0.0.0",
-  "dependencies": {},
   "devDependencies": {
+    "grunt-gh-pages": "^1.0.0",
     "connect-livereload": "~0.4.0",
     "grunt": "~0.4.4",
     "grunt-autoprefixer": "~0.7.2",
@@ -20,7 +20,7 @@
     "node": ">=0.12.0"
   },
   "scripts": {
-      "deploy": "grunt build && git add . && git commit -m 'build' && git push origin master && git subtree split --prefix dist -b gh-pages && git push origin gh-pages"
+    "deploy": "grunt build && git add . && git commit -m 'build' && git push origin master && git subtree split --prefix dist -b gh-pages && git push origin gh-pages"
   },
   "private": true
 }
