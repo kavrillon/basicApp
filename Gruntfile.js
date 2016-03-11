@@ -15,23 +15,27 @@ module.exports = function (grunt) {
             vendors: '<%= dirs.app %>/vendors'
         },
         watch: {
-            options: {
-                livereload: true
-            },
-            files: ['<%= dirs.app %>/**/*.html',
-                '<%= dirs.fonts %>/**/*.*',
-                '<%= dirs.vendors %>/**/*.*',
-                '<%= dirs.js %>/**/*.js',
-                '<%= dirs.images %>/**/*.*'
-            ],
-            css: {
-                files: ['<%= dirs.styles %>/**/*.scss'],
-                tasks: ['preprocss']
+            livereload: {
+                options: {
+                    livereload: '<%= connect.options.livereload %>'
+                },
+                files: ['<%= dirs.app %>/**/*.html',
+                    '<%= dirs.fonts %>/**/*.*',
+                    '<%= dirs.vendors %>/**/*.*',
+                    '<%= dirs.js %>/**/*.js',
+                    '<%= dirs.images %>/**/*.*'
+                ],
+                css: {
+                    files: ['<%= dirs.styles %>/**/*.scss'],
+                    tasks: ['preprocss']
+                }
             }
         },
         connect: {
             options: {
-                port: 8080
+                port: 8080,
+                livereload: 35729,
+                hostname: 'localhost'
             },
             livereload: {
                 options: {
