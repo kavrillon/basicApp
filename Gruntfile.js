@@ -150,17 +150,4 @@ module.exports = function (grunt) {
         'autoprefixer:build',
         'copy'
     ]);
-
-    grunt.registerTask('deploy', [
-        'build',
-        'lint',
-        'sass:build',
-        'autoprefixer:build',
-        'copy'
-    ]);
 };
-//git subtree split --prefix dist -b gh-pages
-//git push origin gh-pages
-
-
-// compression js / html
