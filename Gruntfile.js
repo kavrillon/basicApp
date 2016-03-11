@@ -145,3 +145,5 @@ module.exports = function (grunt) {
         'copy'
     ]);
 };
+//git subtree split --prefix dist -b gh-pages
+//git push origin gh-pages
