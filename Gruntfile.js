@@ -11,8 +11,7 @@ module.exports = function (grunt) {
             fonts: '<%= dirs.app %>/fonts',
             images: '<%= dirs.app %>/images',
             js: '<%= dirs.app %>/js',
-            styles: '<%= dirs.app %>/styles',
-            vendors: '<%= dirs.app %>/vendors'
+            styles: '<%= dirs.app %>/styles'
         },
         watch: {
             livereload: {
@@ -21,7 +20,6 @@ module.exports = function (grunt) {
                 },
                 files: ['<%= dirs.app %>/**/*.html',
                     '<%= dirs.fonts %>/**/*.*',
-                    '<%= dirs.vendors %>/**/*.*',
                     '<%= dirs.temp %>/**/*.css',
                     '<%= dirs.js %>/**/*.js',
                     '<%= dirs.images %>/**/*.*'
@@ -79,8 +77,7 @@ module.exports = function (grunt) {
         },
         scsslint: {
             allFiles: [
-                '<%= dirs.app %>/**/*.scss',
-                '!<%= dirs.app %>/vendors/**/*.scss'
+                '<%= dirs.app %>/**/*.scss'
             ],
             options: {
                 config: '.scss-lint.yml',
@@ -122,14 +119,6 @@ module.exports = function (grunt) {
                     cwd: '<%= dirs.js %>',
                     src: '**/*.js',
                     dest: '<%= dirs.dist %>/js'
-                }]
-            },
-            vendors: {
-                files: [{
-                    expand: true,
-                    cwd: '<%= dirs.vendors %>',
-                    src: ['**/*.*'],
-                    dest: '<%= dirs.dist %>/vendors/'
                 }]
             }
         }
@@ -174,6 +163,4 @@ module.exports = function (grunt) {
 //git push origin gh-pages
 
 
-// tache déploiement gh-pages
-// compression sass au build
 // compression js / html

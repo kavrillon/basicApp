@@ -27,6 +27,6 @@
   "jquery": true,
 
   "globals": {
-
+    "window": false
   }
 }
