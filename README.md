@@ -18,6 +18,10 @@ grunt serve   -> run dev server with livereload
 grunt build   -> create a dist repo with compiled version of sources
 ```
 
+```
+grunt deploy  -> push the dist folder to gh-pages
+```
+
 
 ## TODO
 - HTML compression
