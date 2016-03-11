@@ -6,7 +6,7 @@ module.exports = function (grunt) {
     grunt.initConfig({
         dirs: {
             dist: 'dist',
-            temp: '.tmp',
+            temp: 'dist',
             app: 'src',
             fonts: '<%= dirs.app %>/fonts',
             images: '<%= dirs.app %>/images',
